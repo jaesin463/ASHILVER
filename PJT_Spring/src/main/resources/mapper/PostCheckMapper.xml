@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.pjt.model.dao.PostCheckDao">
+
+	<!-- 인증 확인 -->
+	<insert id="checkPost" parameterType="PostCheck" keyProperty="user_id" useGeneratedKeys="true">
+		INSERT INTO post_check (post_id, user_id)
+		VALUES (#{post_id}, #{user_id})
+	</insert>
+
+	<!-- 그룹별 게시글 조회 -->
+	<select id="selectChecker" parameterType="int" resultType="PostCheck">
+		SELECT *
+		FROM post_check
+		WHERE post_id = #{post_id}
+	</select>
+
+	<select id="select" parameterType="PostCheck" resultType="PostCheck">
+		SELECT *
+		FROM post_check
+		WHERE post_id = #{post_id} AND user_id = #{user_id}
+	</select>
+</mapper>

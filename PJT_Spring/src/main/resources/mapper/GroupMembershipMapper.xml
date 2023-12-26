@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.pjt.model.dao.GroupMembershipDao">
+
+	<!-- 유저별 그룹 조회 -->
+	<select id="selectAllGroup" resultType="Group" parameterType="String">
+		SELECT *
+		FROM `group`
+		WHERE id IN (SELECT group_id
+			FROM `group_membership`
+			WHERE user_id = #{user_id})
+	</select>
+	
+	<!-- 그룹별 사용자 조회 -->
+	<select id="selectAllUser" resultType="User" parameterType="int">
+		SELECT *
+		FROM `user`
+		WHERE id IN (SELECT user_id
+			FROM `group_membership`
+			WHERE group_id = #{group_id})
+	</select>
+	
+	<!-- 그룹 가입 -->
+	<insert id="insertMembership" parameterType="GroupMembership">
+		INSERT INTO `group_membership` (user_id, group_id)
+		VALUES (#{user_id}, #{group_id})
+	</insert>
+	
+	<!-- 그룹 탈퇴 -->
+	<delete id="deleteMembership" parameterType="GroupMembership">
+		DELETE FROM `group_membership`
+		WHERE user_id = #{user_id}
+		AND group_id = #{group_id};
+	</delete>
+</mapper>

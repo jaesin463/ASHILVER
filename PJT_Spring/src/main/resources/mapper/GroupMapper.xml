@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.pjt.model.dao.GroupDao">
+
+	<!-- 전체 그룹 조회 -->
+	<select id="selectAll" resultType="Group">
+		SELECT *
+		FROM `group`
+	</select>
+
+	<!-- 그룹 이름으로 검색 -->
+	<select id="selectByName" parameterType="String"
+		resultType="Group">
+		SELECT *
+		FROM `group`
+		WHERE name LIKE CONCAT('%', #{name},
+		'%')
+	</select>
+
+	<!-- 그룹 상세 조회 -->
+	<select id="selectOne" resultType="Group" parameterType="int">
+		SELECT *
+		FROM `group`
+		WHERE id = #{id}
+	</select>
+
+	<!-- 그룹 등록 -->
+	<insert id="insertGroup" parameterType="Group" keyProperty="id"
+		useGeneratedKeys="true">
+		INSERT INTO `group` (`name`, `leader`, `intro`, `image`)
+		VALUES (#{name}, #{leader}, #{intro}, #{image} )
+	</insert>
+
+	<!-- 그룹 수정 -->
+	<update id="updateGroup" parameterType="Group">
+		UPDATE `group`
+		SET leader = #{leader}, intro = #{intro}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 그룹 삭제 -->
+	<delete id="deleteGroup" parameterType="int">
+		DELETE FROM `group`
+		WHERE
+		id = #{id}
+	</delete>
+
+</mapper>
